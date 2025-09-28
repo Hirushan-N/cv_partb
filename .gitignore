@@ -167,11 +167,6 @@ data/
 outputs/figures/
 outputs/metrics/
 
-# Model checkpoints (use Git LFS or cloud instead)
-outputs/checkpoints/
-*.keras
-*.h5
-*.pb
 
 # Jupyter artifacts
 .ipynb_checkpoints/
