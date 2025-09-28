@@ -169,8 +169,8 @@ Then open your browser at [http://localhost:8501](http://localhost:8501)
 
 ## 🧑‍💻 Author
 
-**Mabotuwana Vithanage Nadeesh Hirushan**  
-Student at NIBM - Galle, Sri Lanka  
+**Nadeesh Hirushan**  
+Student at NIBM
 📧 nadeeshhirushan@gmail.com  
 🔗 [LinkedIn](https://www.linkedin.com/in/nadeeshhirushan)
 
