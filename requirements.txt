@@ -1,10 +1,5 @@
 streamlit==1.36.0
 tensorflow==2.20.0
 pillow
+gdown
 numpy
-pandas
-scikit-learn
-matplotlib
-seaborn
-opencv-python
-ipywidgets
