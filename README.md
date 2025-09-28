@@ -1,7 +1,6 @@
 # 🌿 Plant Disease Detector — Leaf Disease Classification
 
 [![Streamlit App](https://img.shields.io/badge/Streamlit-Deployed-green?logo=streamlit)](https://hirushan-n-cvpartb.streamlit.app/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/DeepLearning-TensorFlow-orange?logo=tensorflow)](https://www.tensorflow.org/)
 [![Made With ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red)](#)
@@ -177,6 +176,4 @@ Student at NIBM - Galle, Sri Lanka
 
 ---
 
-## 📝 License
 
-This project is licensed under the [MIT License](LICENSE).
