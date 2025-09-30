@@ -5,12 +5,43 @@ from PIL import Image
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image as kimage
 
+# ==============================
+# NEW: public test images folder
+# ==============================
+TEST_IMAGES_URL = "https://drive.google.com/drive/folders/1A4QN4dRvQT4RshBT2J-KKjc3OXCkVET2?usp=sharing"
+# Optional: the folder ID if you want to show a gdown command
+TEST_FOLDER_ID  = "1A4QN4dRvQT4RshBT2J-KKjc3OXCkVET2"
+
 MODEL_PATH  = os.path.join("outputs", "checkpoints", "modelB_phase2_best.keras")
 LABELS_PATH = "labels.json"
 IMG_SIZE    = (224, 224)
 MIN_BYTES   = 1_000_000
-# ---------------------------------------
 
+st.set_page_config(page_title="Plant Disease Detector (Part B)", page_icon="🌿")
+
+# ---------------------------------------
+# NEW: Sidebar helper to download samples
+# ---------------------------------------
+with st.sidebar:
+    st.header("🧪 Get Sample Test Images")
+    st.write("Use these tomato leaf images to try the app quickly.")
+    st.link_button("Download sample images (Google Drive)", TEST_IMAGES_URL)
+    with st.expander("Use gdown (advanced)"):
+        st.markdown(
+            "You can download the entire folder locally with **gdown**:\n\n"
+            "```bash\n"
+            f"pip install gdown\n"
+            f"gdown --folder {TEST_FOLDER_ID} -O sample_tests\n"
+            "```"
+        )
+    st.divider()
+
+st.title("🌿 Plant Disease Detector")
+st.caption("MobileNetV2 (transfer learning). Upload a leaf image to get a prediction.")
+
+# ---------------------------------------
+# Model file checks / loading
+# ---------------------------------------
 def ensure_dirs():
     os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
 
@@ -59,6 +90,7 @@ def load_model_and_labels():
     with open(LABELS_PATH, "r", encoding="utf-8") as f:
         labels = json.load(f)
 
+    # quick sanity check on output size vs labels
     try:
         dummy = np.zeros((1, *IMG_SIZE, 3), dtype=np.float32)
         dummy = tf.keras.applications.mobilenet_v2.preprocess_input(dummy)
@@ -90,10 +122,9 @@ def predict(img_pil, model, labels):
     ranked = [(labels[i], float(probs[i]) * 100.0) for i in order]
     return top_label, top_conf, ranked
 
-st.set_page_config(page_title="Plant Disease Detector (Part B)", page_icon="🌿")
-st.title("🌿 Plant Disease Detector")
-st.caption("MobileNetV2 (transfer learning). Upload a leaf image to get a prediction.")
-
+# ---------------------------------------
+# Load model + labels
+# ---------------------------------------
 try:
     with st.spinner("Loading model…"):
         model, labels = load_model_and_labels()
@@ -101,6 +132,9 @@ except Exception as e:
     st.error(str(e))
     st.stop()
 
+# ---------------------------------------
+# Uploader + Inference
+# ---------------------------------------
 uploaded = st.file_uploader("Upload a leaf image (JPG/PNG)", type=["jpg", "jpeg", "png"], key="image_uploader")
 
 if uploaded is not None:
