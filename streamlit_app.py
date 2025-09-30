@@ -6,12 +6,14 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image as kimage
 
 # ==============================
-# NEW: public test images folder
+# Public test images (Google Drive)
 # ==============================
 TEST_IMAGES_URL = "https://drive.google.com/drive/folders/1A4QN4dRvQT4RshBT2J-KKjc3OXCkVET2?usp=sharing"
-# Optional: the folder ID if you want to show a gdown command
-TEST_FOLDER_ID  = "1A4QN4dRvQT4RshBT2J-KKjc3OXCkVET2"
+TEST_FOLDER_ID  = "1A4QN4dRvQT4RshBT2J-KKjc3OXCkVET2"  # for the optional gdown command
 
+# ==============================
+# Model / labels
+# ==============================
 MODEL_PATH  = os.path.join("outputs", "checkpoints", "modelB_phase2_best.keras")
 LABELS_PATH = "labels.json"
 IMG_SIZE    = (224, 224)
@@ -19,29 +21,10 @@ MIN_BYTES   = 1_000_000
 
 st.set_page_config(page_title="Plant Disease Detector (Part B)", page_icon="🌿")
 
-# ---------------------------------------
-# NEW: Sidebar helper to download samples
-# ---------------------------------------
-with st.sidebar:
-    st.header("🧪 Get Sample Test Images")
-    st.write("Use these tomato leaf images to try the app quickly.")
-    st.link_button("Download sample images (Google Drive)", TEST_IMAGES_URL)
-    with st.expander("Use gdown (advanced)"):
-        st.markdown(
-            "You can download the entire folder locally with **gdown**:\n\n"
-            "```bash\n"
-            f"pip install gdown\n"
-            f"gdown --folder {TEST_FOLDER_ID} -O sample_tests\n"
-            "```"
-        )
-    st.divider()
-
 st.title("🌿 Plant Disease Detector")
 st.caption("MobileNetV2 (transfer learning). Upload a leaf image to get a prediction.")
 
-# ---------------------------------------
-# Model file checks / loading
-# ---------------------------------------
+# --- Helper: ensure model file exists locally (or let user upload it) ---
 def ensure_dirs():
     os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
 
@@ -131,6 +114,32 @@ try:
 except Exception as e:
     st.error(str(e))
     st.stop()
+
+# ---------------------------------------
+# Test images helper (positioned ABOVE uploader)
+# ---------------------------------------
+st.markdown(
+    f"""
+    <div style="margin: 0.75rem 0 0.5rem 0; padding: 0.75rem; border: 1px dashed #ddd; border-radius: 8px;">
+        <strong>Need sample test images?</strong>
+        <a href="{TEST_IMAGES_URL}"
+           target="_blank" rel="noopener noreferrer"
+           style="margin-left: 10px; text-decoration: none; padding: 6px 10px; border: 1px solid #0A84FF; border-radius: 6px;">
+           Open Google Drive
+        </a>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+with st.expander("Prefer command line? (gdown)"):
+    st.markdown(
+        "You can download the entire folder locally using **gdown**:\n\n"
+        "```bash\n"
+        "pip install gdown\n"
+        f"gdown --folder {TEST_FOLDER_ID} -O sample_tests\n"
+        "```"
+    )
 
 # ---------------------------------------
 # Uploader + Inference
