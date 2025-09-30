@@ -91,7 +91,7 @@ def predict(img_pil, model, labels):
     return top_label, top_conf, ranked
 
 st.set_page_config(page_title="Plant Disease Detector (Part B)", page_icon="🌿")
-st.title("🌿 Plant Disease Detector — Part B")
+st.title("🌿 Plant Disease Detector")
 st.caption("MobileNetV2 (transfer learning). Upload a leaf image to get a prediction.")
 
 try:
